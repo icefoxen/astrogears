@@ -1,0 +1,22 @@
+wheel1:  41.0  Calculation took 0.934415 seconds
+wheel1:  42.0  Calculation took 1.829929 seconds
+wheel1:  43.0  Calculation took 2.596326 seconds
+wheel1:  44.0  Calculation took 3.282705 seconds
+wheel1:  45.0  Calculation took 3.899763 seconds
+wheel1:  46.0  Calculation took 4.440926 seconds
+wheel1:  47.0  Calculation took 4.933375 seconds
+wheel1:  48.0  Calculation took 5.343515 seconds
+wheel1:  49.0  Calculation took 5.704152 seconds
+wheel1:  50.0  Calculation took 6.033177 seconds
+wheel1:  51.0  Calculation took 6.291577 seconds
+wheel1:  52.0  Calculation took 6.509462 seconds
+wheel1:  53.0  Calculation took 6.689883 seconds
+wheel1:  54.0  Calculation took 6.830534 seconds
+wheel1:  55.0  Calculation took 6.960086 seconds
+wheel1:  56.0  Calculation took 7.043657 seconds
+wheel1:  57.0  Calculation took 7.101810 seconds
+wheel1:  58.0  Calculation took 7.140203 seconds
+wheel1:  59.0  Calculation took 7.165074 seconds
+wheel1:  60.0  Calculation took 7.176462 seconds
+wheel1:  61.0  Calculation took 7.180450 seconds
+<open file 'gear3_70.csv', mode 'r' at 0xb77a7128>
