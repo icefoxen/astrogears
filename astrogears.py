@@ -65,6 +65,17 @@ def find_ratios(min_teeth, max_teeth, pairs=2):
         if error < error_limit:
             print("Good gear ratio found: {}, ratio {} +/- {}".format(x, ratio, error))
 
+def find_ratios_explicit_loops2(min_teeth, max_teeth):
+    gears = range(min_teeth, max_teeth+1)
+    for wheel1 in gears:
+        for wheel2 in gears:
+            for pinion1 in gears:
+                for pinion2 in gears:
+                    gear_ratio = (wheel1/pinion1) * (wheel2/pinion2)
+                    error = abs(gear_ratio - target_gear_range)
+                    ratios = (wheel1, pinion1, wheel2, pinion2)
+                    if error < error_limit:
+                        print("Good gear ratio found: {}, ratio {} +/- {}".format(ratios, gear_ratio, error))
 
 # wheel1 = w1
 # pinion1 = p1

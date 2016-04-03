@@ -1,0 +1,11 @@
+Using two wheel-pinion sets, itertools.permutations,
+and gear ratios betwen 5 and 100, running on Dragon:
+
+python3: 8 minutes, 35 seconds.
+cython: 4 minutes, 29 seconds.
+
+Using cython with for loops instead of generators and generating
+the cartesian product:  31 seconds.
+
+Implemented in C: 1.75 seconds.  Well!
+C with -O3, 0.9 seconds.
