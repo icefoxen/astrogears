@@ -3,7 +3,7 @@ from Cython.Build import cythonize
 
 setup(
   name = 'astrogears',
-  ext_modules = cythonize("astrogears.py"),
+  ext_modules = cythonize("astrogears.pyx"),
 )
 
 # Compile using cython with:

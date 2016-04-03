@@ -7,5 +7,14 @@ cython: 4 minutes, 29 seconds.
 Using cython with for loops instead of generators and generating
 the cartesian product:  31 seconds.
 
+Adding some type declerations to cython:
+24 seconds by converting ints to doubles explicitly.
+21 seconds by making ranges explicit...
+
 Implemented in C: 1.75 seconds.  Well!
 C with -O3, 0.9 seconds.
+
+Implemented in F#: 2 seconds.  Pretty good, considering.
+Enabling optimizations on it doesn't seem to make much
+difference in that case.  But parallelizing F# is way
+easier than C, so.
