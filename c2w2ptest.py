@@ -23,6 +23,12 @@ tot_cnt = 0
 delta_cnt = 0
 data = []
 
+def gear_ratio(lst):
+    """
+    Takes a list of (wheel,pinion) tuples and calculates the
+    gear ratio for them.
+    """
+
 wheel1 = w1
 pinion1 = p1
 while (wheel1 < endw):
