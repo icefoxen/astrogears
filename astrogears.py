@@ -54,8 +54,7 @@ def find_ratios(min_teeth, max_teeth, pairs=2):
         if error < error_limit:
             print("Good gear ratio found: {}, ratio {} +/- {}".format(x, ratio, error))
 
-if __name__ == '__main__':
-    find_ratios(5, 100)
+
 # wheel1 = w1
 # pinion1 = p1
 # while (wheel1 < endw):
