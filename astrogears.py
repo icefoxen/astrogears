@@ -42,10 +42,18 @@ def gear_ratio(lst):
     return product(ratios)
 
 def tuple_to_list_of_pairs(tuple):
+    """
+    Turns (a,b,c,d,e,f) into [(a,b), (c,d), (e,f)]
+    Should work for any length tuple.
+    Tuples with odd lengths will get the last item omitted.
+    """
     return zip(*[tuple[::2], tuple[1::2]])
 
 def find_ratios(min_teeth, max_teeth, pairs=2):
     gears = range(min_teeth, max_teeth+1)
+    # Not sure whether we want product or permutations;
+    # this leads to a lot of repeated combinations.
+    # See the Python3 itertools package page for more info.
     products = itertools.product(gears, repeat=pairs*2)
     for x in products:
         #print("Product is {}, gear ratio is {}".format(x, gear_ratio(tuple_to_list_of_pairs(x))))
