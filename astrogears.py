@@ -52,9 +52,12 @@ def tuple_to_list_of_pairs(tuple):
 def find_ratios(min_teeth, max_teeth, pairs=2):
     gears = range(min_teeth, max_teeth+1)
     # Not sure whether we want product or permutations;
-    # this leads to a lot of repeated combinations.
+    # product leads to a lot of repeated combinations,
+    # so for the moment I'm going with permutations.
+    # Not sure if it will come up with all valid combinations though.
     # See the Python3 itertools package page for more info.
-    products = itertools.product(gears, repeat=pairs*2)
+    #products = itertools.product(gears, repeat=pairs*2)
+    products = itertools.permutations(gears, r=pairs*2)
     for x in products:
         #print("Product is {}, gear ratio is {}".format(x, gear_ratio(tuple_to_list_of_pairs(x))))
         ratio = gear_ratio(tuple_to_list_of_pairs(x))
