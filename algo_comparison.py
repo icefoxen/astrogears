@@ -48,7 +48,7 @@ while (wheel1 < endw):
         wheel2 = wheel2 + 1
     wheel1 = wheel1 + 1
 
-print()
+print("Results: %d" % len(data))
 print("Target Gear Range= %.10f %.10f" % (Target_gear_range,  error_limit))
 
 
@@ -73,7 +73,7 @@ for wheel1 in range(w1, endw+1):
                     data.append((calc_ratio, delta, wheel1, wheel2, pinion1, pinion2))
 
 
-print()
+print("Results: %d" % len(data))
 print("Target Gear Range= %.10f %.10f" % (Target_gear_range,  error_limit))
 
 
@@ -98,7 +98,7 @@ for wheel1 in range(w1, endw+1):
                     data.append((calc_ratio, delta, wheel1, wheel2, pinion1, pinion2))
 
 
-print()
+print("Results: %d" % len(data))
 print("Target Gear Range= %.10f %.10f" % (Target_gear_range,  error_limit))
 
 
