@@ -1,3 +1,4 @@
+// See https://github.com/iriscouch/bigdecimal.js
 
 const target_gear_range: number = 1.002737909350795;
 const error_limit: number = .000003;
