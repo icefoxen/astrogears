@@ -42,10 +42,12 @@ async function printDelayed(elements: string[]) {
 }
 
 
+/*
 printDelayed(["Hello", "beautiful", "asynchronous", "world"]).then(() => {
    addLineToOutput("\n");
    addLineToOutput("Printed every element!");
 });
+*/
 
 function find_ratios_explicit_loops2(min_teeth: number, max_teeth: number) {
    for(let wheel1 = min_teeth; wheel1 < max_teeth + 1; wheel1++) {
