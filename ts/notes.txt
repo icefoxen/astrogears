@@ -33,3 +33,13 @@ Explicit loops, 5 to 50, gear train length 3
 Recursive, same conditions, passing fixed-length array as arg
 
 ....actually significantly faster.  10.7 seconds.  Well!  We have a winner.
+
+
+
+
+Okay, to do next:
+UI
+Delay calls and incremental output/status reporting for UI
+Stylesheet for UI
+Mess about with coprime integers
+

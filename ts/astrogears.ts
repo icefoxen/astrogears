@@ -37,10 +37,6 @@ async function delay(milliseconds: number) {
 
 async function updateStatus(wheel: number, pinion: number, results: number[][]) {
   await delay(0);
-  for (const element of elements) {
-    addLineToOutput(element);
-    //console.log(element);
-  }
 }
 
 
