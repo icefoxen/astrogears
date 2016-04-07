@@ -48,6 +48,13 @@ async function updateStatus(wheel: number, pinion: number, results: number[][]) 
   statusDiv.innerHTML = format("Wheel {0}, pinion {1}, results found: {2}", wheel, pinion, results.length);
 }
 
+function setStatus(str: string) {
+  if(statusDiv == null) {
+    statusDiv = document.getElementById("status");
+  }
+  statusDiv.innerHTML = str;
+}
+
 
 
 // Hard-coding the number of levels of recursion here is kind of silly.
@@ -166,17 +173,48 @@ function find_ratios_recursive1(ratio: number, min_wheel_teeth: number, min_pini
   }
 }
 
+
+function setGuiDisabled(val:boolean) {
+
+  let ratioElem = <HTMLInputElement>document.getElementById("targetRatio");
+  let maxErrorElem = <HTMLInputElement>document.getElementById("maxError");
+  let wheel1Elem = <HTMLInputElement>document.getElementById("wheel1");
+  let pinion1Elem = <HTMLInputElement>document.getElementById("pinion1");
+  let maxElem = <HTMLInputElement>document.getElementById("max");
+  let startButton = <HTMLInputElement>document.getElementById("startButton");
+  let gearTrainElem = <HTMLInputElement>document.getElementById("gearTrain");
+
+
+  //ratioElem.disabled = val;
+  //maxErrorElem.disabled = val;
+  wheel1Elem.disabled = val;
+  pinion1Elem.disabled = val;
+  maxElem.disabled = val;
+  startButton.disabled = val;
+  //gearTrainElem.disabled = val;
+}
+
 // So we can inspect the results of a run directly should we want to.
 let thingses = [];
 
 async function run() {
+  let wheel1Elem = <HTMLInputElement>document.getElementById("wheel1");
+  wheel1Elem.disabled = true;
+  let wheel1 = parseInt(wheel1Elem.value);
+  let pinion1Elem = <HTMLInputElement>document.getElementById("pinion1");
+  let pinion1 = parseInt(pinion1Elem.value);
+  let maxElem = <HTMLInputElement>document.getElementById("max");
+  let max = parseInt(maxElem.value);
+
+  setGuiDisabled(true);
+
   clearOutput();
+
   let t1 = Date.now();
-
-  let results = await find_ratios_recursive_start3(5, 5, 50);
-  console.log(results);
-
+  let results = await find_ratios_recursive_start3(wheel1, pinion1, max);
+  //console.log(results);
   let t2 = Date.now();
+
   let morevals = [];
   for(let values of results) {
     //console.log(values);
@@ -194,8 +232,10 @@ async function run() {
     let resultString = format("Gear train: {0}", val);
     addLineToOutput(resultString);
   }
-  console.log(t2 - t1);
+  setStatus(format("Found {0} gear combinations in {1} seconds:", morevals.length, (t2 - t1)/1000));
 
 
   thingses = results;
+
+  setGuiDisabled(false);
 }

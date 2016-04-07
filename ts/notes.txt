@@ -44,3 +44,15 @@ Delay calls and incremental output/status reporting for UI
 Stylesheet for UI
 Mess about with coprime integers
 Bignums
+
+
+Input values:
+Target gear range
+Error limit
+Length of gear train
+Min/max wheel and pinion for each step of gear train
+
+Output values:
+Teeth on each wheel/pinion combo
+Combined ratio
+Total error
