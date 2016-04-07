@@ -24,3 +24,12 @@ this will be faster or slower than an if statement.
 
 Fastest way, alas, will probably be to have fixed loops.  I want to see how the
 other ways perform though.
+
+
+
+Explicit loops, 5 to 50, gear train length 3
+14.5 sec, 65 more results
+
+Recursive, same conditions, passing fixed-length array as arg
+
+....actually significantly faster.  10.7 seconds.  Well!  We have a winner.
