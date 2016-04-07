@@ -35,7 +35,7 @@ async function delay(milliseconds: number) {
   });
 }
 
-async function printDelayed(elements: string[]) {
+async function updateStatus(elements: string[]) {
   for (const element of elements) {
     await delay(200);
     addLineToOutput(element);
@@ -44,148 +44,133 @@ async function printDelayed(elements: string[]) {
 }
 
 
-/*
-printDelayed(["Hello", "beautiful", "asynchronous", "world"]).then(() => {
-   addLineToOutput("\n");
-   addLineToOutput("Printed every element!");
-});
-*/
-
-async function find_ratios_recursive_silliness3(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+function find_ratios_recursive_start5(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+  let results: number[][] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
       let ratio1 = (wheel1/pinion1);
-      let accm : number[] = [0, 0, 0, 0, wheel1, pinion1];
-      find_ratios_recursive_silliness2(ratio1 * ratio, wheel1, pinion1, max_teeth, accm);
-      //console.log("Delaying on wheel", wheel1, ", pinion ", pinion1);
-      await delay(0);
+      let accm : number[] = [0, 0, 0, 0, 0, 0, 0, 0, pinion1, wheel1];
+      find_ratios_recursive4(ratio1, wheel1, pinion1, max_teeth, accm, results);
     }
-    // We want to do this as seldom as possible while still keeping things
-    // responsive.  It's a tricky balance that will be different on each
-    // computer.  ;_;
-    console.log("Delaying on wheel", wheel1);
   }
+  return results;
 }
 
-function find_ratios_recursive_silliness2(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[]) {
+function find_ratios_recursive_start4(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+  let results: number[][] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
       let ratio1 = (wheel1/pinion1);
-      accm[2] = wheel1;
-      accm[3] = pinion1;
-      find_ratios_recursive_silliness1(ratio1 * ratio, wheel1, pinion1, max_teeth, accm);
+      let accm : number[] = [0, 0, 0, 0, 0, 0, pinion1, wheel1];
+      find_ratios_recursive3(ratio1, wheel1, pinion1, max_teeth, accm, results);
     }
   }
+  return results;
 }
 
-function find_ratios_recursive_silliness1(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[]) {
+function find_ratios_recursive_start3(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+  let results: number[][] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
       let ratio1 = (wheel1/pinion1);
-      accm[0] = wheel1;
-      accm[1] = pinion1;
-      find_ratios_recursive_silliness0(ratio1 * ratio, wheel1, pinion1, max_teeth, accm);
+      let accm : number[] = [0, 0, 0, 0, pinion1, wheel1];
+      find_ratios_recursive2(ratio1, wheel1, pinion1, max_teeth, accm, results);
+
+      // We want to do this as seldom as possible while still keeping things
+      // responsive.  It's a tricky balance that will be different on each
+      // computer.  ;_;
+      //await delay(0);
+    }
+  }
+  return results;
+}
+
+
+function find_ratios_recursive_start2(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+  let results: number[][] = [];
+  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+      let ratio1 = (wheel1/pinion1);
+      let accm : number[] = [0, 0, pinion1, wheel1];
+      find_ratios_recursive1(ratio1, wheel1, pinion1, max_teeth, accm, results);
+    }
+  }
+  return results;
+}
+
+function find_ratios_recursive4(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: number[][]) {
+  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+      let ratio1 = (wheel1/pinion1);
+      accm[7] = wheel1;
+      accm[6] = pinion1;
+      find_ratios_recursive3(ratio1 * ratio, wheel1, pinion1, max_teeth, accm, results);
     }
   }
 }
 
-let things : number[][] = [];
-
-function find_ratios_recursive_silliness0(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[]) {
-  let error = Math.abs(ratio - target_gear_range);
-  if(error < error_limit) {
-    things.push(accm);
-    //let line = format("Good gear ratio found: ratio {0} +/- {1}", ratio, error);
-    //console.log(line);
-    //addLineToOutput(line);
+function find_ratios_recursive3(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: number[][]) {
+  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+      let ratio1 = (wheel1/pinion1);
+      accm[5] = wheel1;
+      accm[4] = pinion1;
+      find_ratios_recursive2(ratio1 * ratio, wheel1, pinion1, max_teeth, accm, results);
+    }
   }
 }
 
-function find_ratios_recursive(ratio: number, levels: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
-  if(levels < 1) {
-    let error = Math.abs(ratio - target_gear_range);
-    if(error < error_limit) {
-      let line = format("Good gear ratio found: ratio {0} +/- {1}", ratio, error);
-      addLineToOutput(line);
+function find_ratios_recursive2(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: number[][]) {
+  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+      let ratio1 = (wheel1/pinion1);
+      accm[3] = wheel1;
+      accm[2] = pinion1;
+      find_ratios_recursive1(ratio1 * ratio, wheel1, pinion1, max_teeth, accm, results);
     }
-  } else {
-    for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
-      for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
-        let ratio1 = (wheel1/pinion1);
-        find_ratios_recursive(ratio1 * ratio, levels-1, wheel1, pinion1, max_teeth);
+  }
+}
+
+function find_ratios_recursive1(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: number[][]) {
+  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+      let ratio1 = (wheel1/pinion1);
+      let result = ratio * ratio1;
+      accm[1] = wheel1;
+      accm[0] = pinion1;
+      let error = Math.abs(result - target_gear_range);
+      if(error < error_limit) {
+        // Need to copy accm and reverse it.
+        // Otherwise the next call will just modify it in place.
+        let accmClone = accm.slice();
+        accmClone.reverse();
+        results.push(accmClone);
       }
     }
   }
 }
 
 
-
-function find_ratios_explicit_loops2(min_teeth: number, max_teeth: number) {
-  for(let wheel1 = min_teeth; wheel1 < max_teeth + 1; wheel1++) {
-    for(let pinion1 = min_teeth; pinion1 < max_teeth + 1; pinion1++) {
-      let ratio1 = (wheel1/pinion1);
-      for(let wheel2 = wheel1; wheel2 < max_teeth + 1; wheel2++) {
-        for(let pinion2 = pinion1; pinion2 < max_teeth + 1; pinion2++) {
-          let gear_ratio = ratio1 * (wheel2/pinion2);
-          let error = Math.abs(gear_ratio - target_gear_range);
-          if(error < error_limit) {
-            //let line = format("Good gear ratio found: ({0},{1},{2},{3}), ratio {4} +/- {5}", wheel1, pinion1, wheel2, pinion2, gear_ratio, error);
-            //addLineToOutput(line);
-            //thingses.push([wheel1, pinion1, wheel2, pinion2]);
-          }
-        }
-      }
-    }
-  }
-}
-
-async function find_ratios_explicit_loops3(min_teeth: number, max_teeth: number) {
-  let solutions : number[][] = [];
-  for(let wheel1 = min_teeth; wheel1 < max_teeth + 1; wheel1++) {
-    console.log("Delaying on wheel", wheel1);
-    for(let pinion1 = min_teeth; pinion1 < max_teeth + 1; pinion1++) {
-      await delay(0);
-
-      let ratio1 = (wheel1/pinion1);
-
-      for(let wheel2 = wheel1; wheel2 < max_teeth + 1; wheel2++) {
-        for(let pinion2 = pinion1; pinion2 < max_teeth + 1; pinion2++) {
-          let ratio2 = ratio1 * (wheel2 / pinion2);
-
-
-          for(let wheel3 = wheel2; wheel3 < max_teeth + 1; wheel3++) {
-            for(let pinion3 = pinion2; pinion3 < max_teeth + 1; pinion3++) {
-
-              let gear_ratio = ratio2 * (wheel3/pinion3);
-              let error = Math.abs(gear_ratio - target_gear_range);
-              if(error < error_limit) {
-                //let line = format("Good gear ratio found: ({0},{1},{2},{3}), ratio {4} +/- {5}", wheel1, pinion1, wheel2, pinion2, gear_ratio, error);
-                //addLineToOutput(line);
-                solutions.push([wheel1, pinion1, wheel2, pinion2, wheel3, pinion3]);
-                //console.log(line);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return solutions;
-}
+let thingses = [];
 
 async function run() {
   clearOutput();
   let t1 = Date.now();
-  //find_ratios_explicit_loops2(5, 200);
-  //find_ratios_recursive(1, 3, 5, 5, 100);
-  //await find_ratios_recursive_silliness3(1, 5, 5, 100);
 
-  //let solutions = await find_ratios_explicit_loops3(5, 50);
-  //console.log(solutions);
-
-  await find_ratios_recursive_silliness3(1, 5, 5, 100);
-  console.log(things);
+  let results = await find_ratios_recursive_start3(5, 5, 50);
+  console.log(results);
 
   let t2 = Date.now();
+  for(let values of results) {
+    console.log(values);
+    let ratio = 1;
+    for(let i = 0; i < values.length - 1; i += 2) {
+      ratio *= (values[i] / values[i+1]);
+    }
+    console.log(ratio, ratio - target_gear_range);
+  }
   console.log(t2 - t1);
+
+
+  thingses = results;
 }
