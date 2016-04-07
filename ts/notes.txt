@@ -38,6 +38,7 @@ Recursive, same conditions, passing fixed-length array as arg
 
 
 Okay, to do next:
+Data output class
 UI
 Delay calls and incremental output/status reporting for UI
 Stylesheet for UI

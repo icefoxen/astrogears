@@ -20,12 +20,16 @@ function clearOutput() {
   e.innerHTML = "";
 
 }
+
+let outputDiv: Element = document.getElementById("output");
 function addLineToOutput(line:string) {
-  let e = document.getElementById("output");
+  // Dunno why this is POSSIBLE, but apparently it is.
+  if(outputDiv == null) {
+    outputDiv = document.getElementById("output");
+  }
   let newe = document.createElement("p");
   newe.innerHTML = line;
-  e.appendChild(newe);
-  //e.innerHTML += "<p>" + line + "</p>";
+  outputDiv.appendChild(newe);
 }
 
 
@@ -35,10 +39,13 @@ async function delay(milliseconds: number) {
   });
 }
 
+let statusDiv: Element = document.getElementById("status");
 async function updateStatus(wheel: number, pinion: number, results: number[][]) {
+  if(statusDiv == null) {
+    statusDiv = document.getElementById("status");
+  }
   await delay(0);
-  let e = document.getElementById("output");
-  e.innerHTML = format("Wheel {0}, pinion {1}, results found: {2}", wheel, pinion, results.length);
+  statusDiv.innerHTML = format("Wheel {0}, pinion {1}, results found: {2}", wheel, pinion, results.length);
 }
 
 
@@ -166,17 +173,26 @@ async function run() {
   clearOutput();
   let t1 = Date.now();
 
-  let results = await find_ratios_recursive_start3(5, 5, 100);
+  let results = await find_ratios_recursive_start3(5, 5, 50);
   console.log(results);
 
   let t2 = Date.now();
+  let morevals = [];
   for(let values of results) {
-    console.log(values);
+    //console.log(values);
     let ratio = 1;
     for(let i = 0; i < values.length - 1; i += 2) {
       ratio *= (values[i] / values[i+1]);
     }
-    console.log(ratio, ratio - target_gear_range);
+    let error = ratio - target_gear_range;
+    values.push(Math.abs(error));
+    morevals.push(values);
+  }
+  // Sort values with the smallest error first.
+  morevals.sort(function (a,b){return a[6] - b[6];});
+  for(let val of morevals) {
+    let resultString = format("Gear train: {0}", val);
+    addLineToOutput(resultString);
   }
   console.log(t2 - t1);
 
