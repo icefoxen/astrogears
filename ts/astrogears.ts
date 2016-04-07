@@ -37,6 +37,8 @@ async function delay(milliseconds: number) {
 
 async function updateStatus(wheel: number, pinion: number, results: number[][]) {
   await delay(0);
+  let e = document.getElementById("output");
+  e.innerHTML = format("Wheel {0}, pinion {1}, results found: {2}", wheel, pinion, results.length);
 }
 
 
@@ -73,9 +75,10 @@ function find_ratios_recursive_start4(min_wheel_teeth: number, min_pinion_teeth:
   return results;
 }
 
-function find_ratios_recursive_start3(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+async function find_ratios_recursive_start3(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
   let results: number[][] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    await updateStatus(wheel1, -1, results);
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
       let ratio1 = (wheel1/pinion1);
       let accm : number[] = [0, 0, 0, 0, pinion1, wheel1];
@@ -163,7 +166,7 @@ async function run() {
   clearOutput();
   let t1 = Date.now();
 
-  let results = await find_ratios_recursive_start3(5, 5, 50);
+  let results = await find_ratios_recursive_start3(5, 5, 100);
   console.log(results);
 
   let t2 = Date.now();
