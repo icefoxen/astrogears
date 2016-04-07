@@ -35,15 +35,24 @@ async function delay(milliseconds: number) {
   });
 }
 
-async function updateStatus(elements: string[]) {
+async function updateStatus(wheel: number, pinion: number, results: number[][]) {
+  await delay(0);
   for (const element of elements) {
-    await delay(200);
     addLineToOutput(element);
     //console.log(element);
   }
 }
 
 
+
+// Hard-coding the number of levels of recursion here is kind of silly.
+// But it's not as silly as hard-coding huge nested for loops,
+// and it's nearly as fast, so.
+// Any kind of 'if' kills performance.
+// Any kind of array allocation kills performance.
+// Any kind of array lookup probably kills performance too.  
+// And hardcoding array indices instead of calculating them helps a lot.
+// Coding in Javascript like it's 1973!
 function find_ratios_recursive_start5(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
   let results: number[][] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
@@ -131,6 +140,7 @@ function find_ratios_recursive2(ratio: number, min_wheel_teeth: number, min_pini
   }
 }
 
+
 function find_ratios_recursive1(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: number[][]) {
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
@@ -150,7 +160,7 @@ function find_ratios_recursive1(ratio: number, min_wheel_teeth: number, min_pini
   }
 }
 
-
+// So we can inspect the results of a run directly should we want to.
 let thingses = [];
 
 async function run() {
