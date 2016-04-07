@@ -5,7 +5,7 @@
 # Ugh.
 # Redo this to use npm or browserify?
 echo Building typescript...
-tsc -t es2015 astrogears.ts
+tsc -t es6 astrogears.ts
 echo Turning fancy-ass ES2015 javascript to old-ass javascript... 
 babel astrogears.js -o astrogears-built.js
 echo "Open astrogears.html in a browser to see it work."
