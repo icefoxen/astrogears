@@ -7,20 +7,32 @@ body {
 div.inputform {
   background: #d0b080;
   padding: 1em;
+  margin: 0.5em;
 }
 
 td {
   padding: 0.3em;
+  margin: 0.5em;
 }
 
 div#status {
   padding: 1em;
-  background: #CCCCCC;
+  background: beige;
   border=1px;
+  margin: 0.5em;
   
 }
 
 div#output {
   padding: 1em;
   background: #FFFFFF;
+  
+  border: black;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0.5em;
+}
+
+p#result {
+  background: #DDDDDD;
 }
