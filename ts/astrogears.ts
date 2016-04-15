@@ -1,9 +1,4 @@
 
-//import "babel-polyfill";
-
-const target_gear_range: number = 1.002737909350795;
-const error_limit: number = .000003;
-
 // FFS, really?  JS doesn't have this?
 function format(formatstr:string, ...rest) {
    //let args = Array.prototype.slice.call(arguments, 1);
@@ -14,6 +9,47 @@ function format(formatstr:string, ...rest) {
      ;
    });
 }
+
+
+
+class Result {
+  wheels: number[];
+  pinions: number[];
+  ratio: number;
+  error: number;
+
+  constructor(geartrainLength: number, ratio: number, error: number) {
+    this.ratio = ratio;
+    this.error = error;
+    this.wheels = new Array<number>(geartrainLength);
+    this.pinions =  new Array<number>(geartrainLength);
+  }
+
+  setGears(level: number, wheel: number, pinion: number) {
+    this.wheels[level] = level;
+    this.pinions[level] = level;
+  }
+
+  getGears(level: number) {
+    return (this.wheels[level], this.pinions[level]);
+  }
+
+  calculateGearRatio() {
+    let accm: number = 1;
+    for(let i = 0; i < this.wheels.length; i++) {
+      accm *= (this.wheels[i] / this.pinions[i]);
+    }
+    return accm;
+  }
+
+  toString() {
+    return format("RESULT Wheels: {0} Pinions {1} ratio: {2} +/- {3}", this.wheels, this.pinions, this.ratio, this.error);
+  }
+}
+
+const target_gear_range: number = 1.002737909350795;
+const error_limit: number = .000003;
+
 
 function clearOutput() {
   let e = document.getElementById("output");
