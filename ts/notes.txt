@@ -1,0 +1,58 @@
+See https://github.com/iriscouch/bigdecimal.js
+
+Okay, what you need to do is this:
+First, hoist the ratio calculations out of the innermost loop as much as possible.
+Second, take the innermost loop and turn it into a function.
+That function will take (ratio, wheelsize, pinionsize, maxsize, levels) and recurse
+if levels > 0, and otherwise run through a loop calculating 
+newratio = (ratio * (wheel/pinion))
+recurse(newratio, ..., levels-1)
+If levels == 0 or 1 or whatever instead of recursing it will check if newratio is
+within the bounds of our target number and print out if so.
+
+Downside of this, there's function call overhead, and
+we compare newlevels once per function call.
+I can think of two ways to deal with the latter.
+First, we have separate functions that recurse a given number of times;
+so calc5 will call calc4 calls calc3 calls calc2 calls calc1 which doesn't
+recurse.  This is goofy but WILL work, and is less goofy than nesting for loops
+ten deep.
+
+Second way is we just have calc1 and calcN.  calcN takes an array of functions
+and indexes into it based on level instead of having an if statement.  Dunno if
+this will be faster or slower than an if statement.
+
+Fastest way, alas, will probably be to have fixed loops.  I want to see how the
+other ways perform though.
+
+
+
+Explicit loops, 5 to 50, gear train length 3
+14.5 sec, 65 more results
+
+Recursive, same conditions, passing fixed-length array as arg
+
+....actually significantly faster.  10.7 seconds.  Well!  We have a winner.
+
+
+
+
+Okay, to do next:
+Data output class
+UI
+Delay calls and incremental output/status reporting for UI
+Stylesheet for UI
+Mess about with coprime integers
+Bignums
+
+
+Input values:
+Target gear range
+Error limit
+Length of gear train
+Min/max wheel and pinion for each step of gear train
+
+Output values:
+Teeth on each wheel/pinion combo
+Combined ratio
+Total error

@@ -1,17 +1,67 @@
 <!DOCTYPE html>
 <html>
-    <head><title>TypeScript Astrogears</title></head>
-    <body>
-        <script src="node_modules/babel-polyfill/dist/polyfill.js"></script>
-        <script src="astrogears-built.js"></script>
-        <p>ok...</p>
-        <button onclick="run();">
-        Run!
+<head><title>TypeScript Astrogears</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <script src="node_modules/babel-polyfill/dist/polyfill.min.js"></script>
+    <script src="astrogears-built.js"></script>
+    <h1>Astrogears</h1>
+    <div class="inputform">
+        <table>
+            <tr>
+                <td>
+                    Target gear ratio:
+                </td>
+                <td>
+                    <input id="targetRatio" value="1.002737909350795" disabled=true />
+                </td>
+                <td>
+                    Desired max error:
+                </td>
+                <td>
+                    <input id="maxError" value="0.000003" disabled=true />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Wheel min teeth:
+                </td>
+                <td>
+                    <input id="wheel1" value="5" />
+                </td>
+                <td>
+                    Pinion min teeth:
+                </td>
+                <td>
+                    <input id="pinion1" value="5" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Wheel/pinion max teeth:
+                </td>
+                <td>
+                    <input id="max" value="50" />
+                </td>
+                <td>
+                Length of gear train:
+                </td>
+                <td>
+                <input id="geartrain" disabled=true value="3" />
+                </td>
+            </tr>
+        </table>
+        <button id="startButton" onclick="run();">
+            Run!
         </button>
-        <div id="output">
+    </div>
+    <div id="status">
 
-        </div>
-        <script>
-        </script>
-    </body>
+    </div>
+    <div id="output">
+
+    </div>
+</body>
 </html>
