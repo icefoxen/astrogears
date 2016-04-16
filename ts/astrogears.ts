@@ -25,7 +25,8 @@ class Result {
     let gearTrainLength = geararray.length / 2;
     this.wheels = new Array<number>(gearTrainLength);
     this.pinions = new Array<number>(gearTrainLength);
-    for (let i = 0; i < geararray.length; i++) {
+    //console.log(gearTrainLength, this.wheels.length);
+    for (let i = 0; i < gearTrainLength; i++) {
       this.wheels[i] = geararray[i * 2];
       this.pinions[i] = geararray[(i * 2) + 1];
     }
@@ -35,10 +36,27 @@ class Result {
   calcRatio(target: number = 1) {
     let accm = 1;
     for (let i = 0; i < this.wheels.length; i++) {
-      accm *= this.wheels[i] / this.pinions[i];
+      accm *= (this.wheels[i] / this.pinions[i]);
     }
     this.ratio = accm;
     this.error = target - this.ratio;
+  }
+
+  toString():string {
+    let accm = [];
+    accm.push("Wheel/pinion: ")
+    for (let i = 0; i < this.wheels.length; i++) {
+      console.log(this.wheels.length);
+      accm.push(this.wheels[i]);
+      accm.push("/");
+      accm.push(this.pinions[i]);
+      accm.push(" ")
+    }
+    accm.push(" Gear ratio: ");
+    accm.push(this.ratio);
+    accm.push(" error: ");
+    accm.push(this.error);
+    return accm.join('');
   }
 }
 
@@ -190,7 +208,10 @@ function find_ratios_recursive1(ratio: number, min_wheel_teeth: number, min_pini
       accm[0] = pinion1;
       let error = Math.abs(result - target_gear_range);
       if(error < error_limit) {
-        let r = new Result(accm, target_gear_range);
+        let a = accm.slice();
+        a.reverse();
+        let r = new Result(a, target_gear_range);
+        //console.log("Making result", r, "error is", error, "error limit is", error_limit);
         results.push(r);
       }
     }
@@ -230,34 +251,39 @@ async function run() {
   let maxElem = <HTMLInputElement>document.getElementById("max");
   let max = parseInt(maxElem.value);
 
+
+  let geartrainElem = <HTMLInputElement>document.getElementById("geartrain");
+  let geartrain = parseInt(geartrainElem.value);
+  //console.log(geartrain);
+
   setGuiDisabled(true);
 
   clearOutput();
 
   let t1 = Date.now();
-  let results = await find_ratios_recursive_start3(wheel1, pinion1, max);
+  let results = []
+  switch(geartrain) {
+    case 2:
+      results = await find_ratios_recursive_start2(wheel1, pinion1, max);
+      break;
+    case 3:
+      results = await find_ratios_recursive_start3(wheel1, pinion1, max);
+      break;
+    case 4:
+      results = await find_ratios_recursive_start4(wheel1, pinion1, max);
+      break;
+    case 5:
+      results = await find_ratios_recursive_start5(wheel1, pinion1, max);
+      break;
+  }
   //console.log(results);
   let t2 = Date.now();
 
-  /*
-  let morevals = [];
-  for(let values of results) {
-    //console.log(values);
-    let ratio = 1;
-    for(let i = 0; i < values.length - 1; i += 2) {
-      ratio *= (values[i] / values[i+1]);
-    }
-    let error = ratio - target_gear_range;
-    values.push(Math.abs(error));
-    morevals.push(values);
+  // Sort results
+  results.sort((r1, r2) => Math.abs(r1.error) - Math.abs(r2.error));
+  for (let result of results) {
+    addLineToOutput(result.toString());
   }
-  // Sort values with the smallest error first.
-  morevals.sort(function (a,b){return a[6] - b[6];});
-  for(let val of morevals) {
-    let resultString = format("Gear train: {0}", val);
-    addLineToOutput(resultString);
-  }
-  */
   setStatus(format("Found {0} gear combinations in {1} seconds:", results.length, (t2 - t1)/1000));
 
 
