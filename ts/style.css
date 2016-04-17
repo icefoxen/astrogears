@@ -8,6 +8,7 @@ div.inputform {
   background: #d0b080;
   padding: 1em;
   margin: 0.5em;
+  border-radius: 1em;
 }
 
 td {
@@ -20,6 +21,7 @@ div#status {
   background: beige;
   border=1px;
   margin: 0.5em;
+  border-radius: 1em;
   
 }
 
@@ -27,10 +29,8 @@ div#output {
   padding: 1em;
   background: #FFFFFF;
   
-  border: black;
-  border-width: 1px;
-  border-style: solid;
   margin: 0.5em;
+  border-radius: 1em;
 }
 
 p#result {

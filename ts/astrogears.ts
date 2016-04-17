@@ -53,9 +53,9 @@ class Result {
       accm.push(" ")
     }
     accm.push(" Gear ratio: ");
-    accm.push(this.ratio);
+    accm.push(this.ratio.toFixed(15));
     accm.push(" error: ");
-    accm.push(this.error);
+    accm.push(this.error.toFixed(15));
     return accm.join('');
   }
 }
@@ -85,12 +85,12 @@ async function delay(milliseconds: number) {
 }
 
 let statusDiv: Element = document.getElementById("status");
-async function updateStatus(wheel: number, pinion: number, results: any[]) {
+async function updateStatus(wheel: number, results: any[]) {
   if(statusDiv == null) {
     statusDiv = document.getElementById("status");
   }
-  await delay(0);
-  statusDiv.innerHTML = format("Wheel {0}, pinion {1}, results found: {2}", wheel, pinion, results.length);
+  await delay(1);
+  statusDiv.innerHTML = format("Wheel {0}, results found: {1}", wheel, results.length);
 }
 
 function setStatus(str: string) {
@@ -110,7 +110,7 @@ function setStatus(str: string) {
 // Any kind of array lookup probably kills performance too.  
 // And hardcoding array indices instead of calculating them helps a lot.
 // Coding in Javascript like it's 1973!
-function find_ratios_recursive_start5(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+async function find_ratios_recursive_start5(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
   let results: Result[] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
@@ -122,7 +122,7 @@ function find_ratios_recursive_start5(min_wheel_teeth: number, min_pinion_teeth:
   return results;
 }
 
-function find_ratios_recursive_start4(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
+async function find_ratios_recursive_start4(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
   let results: Result[] = [];
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
@@ -136,17 +136,12 @@ function find_ratios_recursive_start4(min_wheel_teeth: number, min_pinion_teeth:
 
 async function find_ratios_recursive_start3(min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number) {
   let results: Result[] = [];
-  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
-    await updateStatus(wheel1, -1, results);
+  for (let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    await updateStatus(wheel1, results);
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
       let ratio1 = (wheel1/pinion1);
       let accm : number[] = [0, 0, 0, 0, pinion1, wheel1];
       find_ratios_recursive2(ratio1, wheel1, pinion1, max_teeth, accm, results);
-
-      // We want to do this as seldom as possible while still keeping things
-      // responsive.  It's a tricky balance that will be different on each
-      // computer.  ;_;
-      //await delay(0);
     }
   }
   return results;
@@ -165,20 +160,21 @@ function find_ratios_recursive_start2(min_wheel_teeth: number, min_pinion_teeth:
   return results;
 }
 
-function find_ratios_recursive4(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: Result[]) {
+async function find_ratios_recursive4(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: Result[]) {
   for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
     for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
       let ratio1 = (wheel1/pinion1);
       accm[7] = wheel1;
       accm[6] = pinion1;
-      find_ratios_recursive3(ratio1 * ratio, wheel1, pinion1, max_teeth, accm, results);
+      await find_ratios_recursive3(ratio1 * ratio, wheel1, pinion1, max_teeth, accm, results);
     }
   }
 }
 
-function find_ratios_recursive3(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: Result[]) {
-  for(let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
-    for(let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+async function find_ratios_recursive3(ratio: number, min_wheel_teeth: number, min_pinion_teeth: number, max_teeth: number, accm: number[], results: Result[]) {
+  for (let wheel1 = min_wheel_teeth; wheel1 < max_teeth + 1; wheel1++) {
+    for (let pinion1 = min_pinion_teeth; pinion1 < max_teeth + 1; pinion1++) {
+      await updateStatus(wheel1, results);
       let ratio1 = (wheel1/pinion1);
       accm[5] = wheel1;
       accm[4] = pinion1;
@@ -227,7 +223,7 @@ function setGuiDisabled(val:boolean) {
   let pinion1Elem = <HTMLInputElement>document.getElementById("pinion1");
   let maxElem = <HTMLInputElement>document.getElementById("max");
   let startButton = <HTMLInputElement>document.getElementById("startButton");
-  let gearTrainElem = <HTMLInputElement>document.getElementById("gearTrain");
+  let gearTrainElem = <HTMLInputElement>document.getElementById("geartrain");
 
 
   //ratioElem.disabled = val;
@@ -236,7 +232,7 @@ function setGuiDisabled(val:boolean) {
   pinion1Elem.disabled = val;
   maxElem.disabled = val;
   startButton.disabled = val;
-  //gearTrainElem.disabled = val;
+  gearTrainElem.disabled = val;
 }
 
 // So we can inspect the results of a run directly should we want to.
