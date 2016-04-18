@@ -43,8 +43,8 @@ let find_ratios_explicit_loops2_tasks (min_teeth:int) (max_teeth:int) =
     tasks
 
 
-let find_ratios_explicit_loops2_async (min_teeth:int) (max_teeth:int) = seq {
-  yield async {
+let find_ratios_explicit_loops2_async (min_teeth:int) (max_teeth:int) =
+  async {
     for wheel1 in min_teeth..max_teeth+1 do
         for wheel2 in min_teeth..max_teeth+1 do
             for pinion1 in min_teeth..max_teeth+1 do
@@ -58,8 +58,7 @@ let find_ratios_explicit_loops2_async (min_teeth:int) (max_teeth:int) = seq {
                     let error = abs (gear_ratio - target_gear_range)
                     if error < error_limit then
                         printf "Good gear ratio found: (%A,%A,%A,%A), ratio %A +/- %A\n" wheel1 pinion1 wheel2 pinion2 gear_ratio error
-   }
-  }
+     }
 
 
 //find_ratios_explicit_loops2 5 100
@@ -67,9 +66,7 @@ let find_ratios_explicit_loops2_async (min_teeth:int) (max_teeth:int) = seq {
 //printf "Number of tasks: %d\n" (tasks.Count)
 //Task.WaitAll(tasks.ToArray())
 
-find_ratios_explicit_loops2_async 5 1-0 |>
-Async.Parallel |>
-Async.Ignore |>
+find_ratios_explicit_loops2_async 5 100 |>
 Async.RunSynchronously
 
 //find_ratios_explicit_loops2_async 5 150 |>
