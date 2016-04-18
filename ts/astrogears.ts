@@ -47,17 +47,21 @@ class Result {
     let accm = [];
     accm.push("Wheel/pinion: ")
     for (let i = 0; i < this.wheels.length; i++) {
-      console.log(this.wheels.length);
       accm.push(zeroPad(this.wheels[i], 3));
       accm.push("/");
       accm.push(zeroPad(this.pinions[i], 3));
       accm.push(" ")
     }
-    accm.push(" Gear ratio: ");
+    accm.push(" teeth. Gear ratio: ");
     accm.push(this.ratio.toFixed(15));
     accm.push(" error: ");
-    if (this.error < 0) { accm.push(" ");}
+    if (this.error > 0) { accm.push("&nbsp;");}
     accm.push(this.error.toFixed(15));
+
+    accm.push(" (drifts about ");
+    accm.push(this.error * 60 * 60 * 24 * 365.25)
+    accm.push(" seconds per year)")
+
     return accm.join('');
   }
 }
