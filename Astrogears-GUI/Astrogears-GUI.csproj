@@ -80,6 +80,7 @@
     <Compile Include="Tests.cs" />
     <Compile Include="RunButton.cs" />
     <Compile Include="gtk-gui\AstrogearsGUI.RunButton.cs" />
+    <Compile Include="Astrogears.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
