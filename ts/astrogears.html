@@ -8,30 +8,7 @@
     <script src="node_modules/babel-polyfill/dist/polyfill.min.js"></script>
     <script src="astrogears-built.js"></script>
     <h1>Astrogears</h1>
-    <div class="inputform">
-        <p><strong>What is this?</strong></p>
-        <p>This is a calculator to find gear ratios for a train of wheel-and-pinion gears.  You give it the gear ratio you want as a decimal number, and it will find all sets of wheel-and-pinion gear trains that will give you that ratio to within a tolerance you specify.</p>
-        <p><strong>How do I use this?</strong></p>
-        <p>
-            Enter your target gear ratio and max tolerance, and define the space for how many gear teeth you want for the wheels and pinions.  "Length of gear train" is how many wheel-and-pinion sets you want.
-        </p>
-        <p><strong>How long does it take to calculate?</strong></p>
-        <p>
-            Try it and find out!  Though start with <strong>small</strong> numbers and work your way up!!!  I've put a fair amount of work into making the program run efficiently, but the number of potential solutions <strong>explodes</strong> the longer the gear train is.  It has to do n<super>2m</super> calculations or something like that, where n is the number of gear teeth and m is the length of the gear train.  On my computer, if you are looking for wheels and pinions with between 5 and 25 teeth, it goes through gear trains of length 2 in 0.1 second, gear trains of length 3 in 0.3 seconds, gear trains of length 4 in 11 seconds, and gear trains of length 5 in 200 seconds.
-        </p>
-        <p>
-            Needless to say, this is why the max gear train length is limited to 5.  More than that and it's not terribly practical.  Using a more powerful computer will help, but it's fairly easy to make situations that will take hours or days to run, at which point you'd  be making your browser hang for minutes or hours at a time, and would gain a lot by having a more .
-        </p>
-        <p><strong>Where can I get the code?</strong></p>
-        <p>
-            <a href="https://repo.alopex.li/astrogears">Here!</a>.  There's a lot of experimental junk in there, you want the Typescript version.  It is released under the BSD-style license described <a href="https://alopex.li/code/COPYING">here.</a>.
-        </p>
-        <p><strong>I found a bug!</strong></p>
-        <p>
-            Great!  <a href="mailto:icefoxen@gmail.com">Email me!</a>
-        </p>
 
-    </div>
     <div class="inputform">
         <table>
             <tr>
@@ -91,6 +68,37 @@
     </div>
     <div id="output">
 
+    </div>
+    <div class="inputform">
+        <p><strong>What is this?</strong></p>
+        <p>This is a calculator to find gear ratios for a train of wheel-and-pinion gears, designed for watch and clock makers.</p>
+        <p><strong>How do I use this?</strong></p>
+        <p>
+            Enter your target gear ratio and max tolerance, and define the range of how many gear teeth you want for the wheels and pinions.  "Length of gear train" is how many wheel-and-pinion sets you want in series.
+        </p>
+        <p><strong>How accurate is this?</strong></p>
+        <p>
+            Accurate to within the precision of a <a href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">double-precision floating point number</a>.  Roughly, to about 15 decimal digits.  At some point I might make a version using arbitrary-precision math, but that will be a lot slower.
+        </p>
+        <p><strong>How long does it take to calculate?</strong></p>
+        <p>
+            Try it and find out, though start with <em>small</em> numbers and work your way up!  I've put a fair amount of work into making the program run efficiently, but the number of potential solutions <strong>explodes</strong> the longer the gear train is.  It has to do <em>n<sup>2m</sup></em> calculations or something like that, where <em>n</em> is the number of gear teeth and <em>m</em> is the length of the gear train.  For example, on my computer, if you are looking for wheels and pinions with between 5 and 30 teeth, it goes through gear trains of length 2 in 0.1 second, gear trains of length 3 in 0.3 seconds, gear trains of length 4 in 11 seconds, and gear trains of length 5 in 200 seconds.
+        </p>
+        <p>
+            Needless to say, this is why the max gear train length is limited to 5.  More than that and it's not terribly practical.  Using a more powerful computer will help, but it's fairly easy to make situations that will take hours or days to run, at which point you'd  be making your browser hang for minutes or hours at a time, and would gain a lot by having a more powerful program than what can run in a web browser.
+        </p>
+        <p><strong>Where can I get the code?</strong></p>
+        <p>
+            <a href="https://repo.alopex.li/astrogears">Here!</a>.  There's a lot of experimental junk in there, you want the Typescript version.  It is released under the BSD-style license described <a href="https://alopex.li/code/COPYING">here.</a>.
+        </p>
+        <p><strong>I found a bug!  Your math is wrong!  I want something different!</strong></p>
+        <p>
+            Great!  <a href="mailto:icefoxen@gmail.com">Email me!</a>
+        </p>
+
+    </div>
+    <div class="copyright">
+        &copy; Simon Heath, 2016.  All rights reserved.
     </div>
 </body>
 </html>
