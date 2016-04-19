@@ -50,27 +50,32 @@ namespace AstrogearsGUI
 
 	public static class Astrogears
 	{
-		public static void FindRatiosContN(double ratio, RunState state, int n) {
-			var conts = new ContinuationThing[n];
-			for (int i = 0; i < n - 1; i++) {
-				conts [i] = FindRatiosContN;
-			}
-			conts [n - 1] = FindRatiosCont1;
-			FindRatiosContN (ratio, state, conts, 0);
+		public static void FindRatiosCont(double ratio, RunState state, int n) {
+			FindRatiosContN (ratio, state, n-1);
 		}
-		delegate void ContinuationThing(double ratio, RunState state, ContinuationThing[] conts, int n);
-		static void FindRatiosContN(double ratio, RunState state, ContinuationThing[] conts, int n) {
-			var cont = conts [n];
+		delegate void ContinuationThing(double ratio, RunState state, int n);
+
+		static readonly ContinuationThing[] conts = new ContinuationThing[]{
+			FindRatiosCont1,
+			FindRatiosContN,
+			FindRatiosContN,
+			FindRatiosContN,
+			FindRatiosContN,
+			FindRatiosContN,
+		};
+		static void FindRatiosContN(double ratio, RunState state, int n) {
+			//var cont = conts [n];
 			for(var wheel = state.MinTeeth; wheel <= state.MaxTeeth; wheel++) {
 				//Console.WriteLine ("Working on wheel {0}, level {1}", wheel, n);
 				for (var pinion = state.MinTeeth; pinion <= state.MaxTeeth; pinion++) {
 					var result = ratio * ((double)wheel / (double)pinion);
-					cont (result, state, conts, n + 1);
+					FindRatiosCont1 (result, state, n);
+					//cont (result, state, n - 1);
 				}
 			}
 		}
 
-		static void FindRatiosCont1(double ratio, RunState state, ContinuationThing[] conts, int n) {
+		static void FindRatiosCont1(double ratio, RunState state, int n) {
 			for(var wheel = state.MinTeeth; wheel <= state.MaxTeeth; wheel++) {
 				for (var pinion = state.MinTeeth; pinion <= state.MaxTeeth; pinion++) {
 					var result = ratio * ((double)wheel / (double)pinion);
