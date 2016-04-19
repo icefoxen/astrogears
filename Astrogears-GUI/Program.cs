@@ -26,7 +26,7 @@ namespace AstrogearsGUI
 
 
 			t.Reset ();
-			rs = new RunState (0, 1.002737909350795, 0.000003, 5, 100);
+			rs = new RunState (0, 1.002737909350795, 0.000003, 5, 30);
 			t.Start ();
 			Astrogears.FindRatiosContN(1, rs, 2);
 			t.Stop();

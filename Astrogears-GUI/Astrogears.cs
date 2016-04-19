@@ -62,6 +62,7 @@ namespace AstrogearsGUI
 		static void FindRatiosContN(double ratio, RunState state, ContinuationThing[] conts, int n) {
 			var cont = conts [n];
 			for(var wheel = state.MinTeeth; wheel <= state.MaxTeeth; wheel++) {
+				//Console.WriteLine ("Working on wheel {0}, level {1}", wheel, n);
 				for (var pinion = state.MinTeeth; pinion <= state.MaxTeeth; pinion++) {
 					var result = ratio * ((double)wheel / (double)pinion);
 					cont (result, state, conts, n + 1);
