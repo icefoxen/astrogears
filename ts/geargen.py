@@ -12,18 +12,37 @@ async function find_ratios{depth}(min_teeth: number, max_teeth: number, target_n
 }}
 """
 
-def generate_loops(depth, indent_depth=1):
-	forloop = """
-{indent}for(let gear{n} = min_teeth; gear{n} <= max_teeth; gear{n}++) {{
-{indent}	{body}
-{indent}}}
+def generate_body(level):
+	actual_math = """
+let error = Math.abs(result - target_number);
+if(error < target_error) {{
+	let gearArray: number[] = {gears};
+	let r = new Result(gearArray, target_number);
+	results.push(r);
+}}
 	"""
-	if depth == 0:
-		return "Foobaz!"
-	else:
-		bodytext = generate_loops(depth-1, indent_depth+1)
-		indent = "\t" * indent_depth
-		return forloop.format(n=depth, body=bodytext, indent=indent)
+	gears = ["gear{}".format(gear) for gear in range(1,level)]
+	gearArray = "{" + (','.join(gears)) + '}'
+	return actual_math.format(gears=gearArray)
 
-print(template.format(depth=1, generated_loops="foo"))
-print(generate_loops(9))
+def generate_loops(desired_depth, delay_target, current_depth=1):
+	forloop = \
+"""{indent}for(let gear{n} = min_teeth; gear{n} <= max_teeth; gear{n}++) {{
+{indent}	{delay}
+{body}
+{indent}}}"""
+
+	if current_depth <= desired_depth:
+		bodytext = generate_loops(desired_depth, delay_target,
+		current_depth=current_depth+1)
+		indent = "\t" * current_depth
+		delay = ""
+		if current_depth == delay_target:
+			delay = "await updateStatus(wheel1, results);"
+		return forloop.format(
+			n=current_depth, delay=delay,
+			body=bodytext, indent=indent)
+	else:
+		return generate_body(current_depth)
+
+print(generate_loops(9, 5))
