@@ -282,7 +282,7 @@ async function run() {
       results = await find_ratios_recursive_start4(wheel1, pinion1, max,  ratio, error);
       break;
     case 5:
-      results = await find_ratios_recursive_start5(wheel1, pinion1, max,  ratio, error);
+      results = await find_ratios5(wheel1, max,  ratio, error);
       break;
   }
   //console.log(results);
@@ -300,3 +300,32 @@ async function run() {
 
   setGuiDisabled(false);
 }
+
+async function find_ratios5(min_teeth: number, max_teeth: number, target_number: number, target_error: number) {
+	let results: Result[] = [];
+  for (let gear1 = min_teeth; gear1 <= max_teeth; gear1++) {
+    console.log("Finding ratios", gear1);
+        await updateStatus(gear1, results);
+
+    
+		 for(let gear2 = min_teeth; gear2 <= max_teeth; gear2++) {
+			
+			for(let gear3 = min_teeth; gear3 <= max_teeth; gear3++) {
+				
+				for(let gear4 = min_teeth; gear4 <= max_teeth; gear4++) {
+					
+let result = (gear1 / gear2) * (gear3 / gear4);
+let error = Math.abs(result - target_number);
+if(error < target_error) {
+	let gearArray: number[] = [gear1,gear2,gear3,gear4];
+	let r = new Result(gearArray, target_number);
+	results.push(r);
+}
+	
+				}
+			}
+		}
+	}
+	return results;
+}
+	
