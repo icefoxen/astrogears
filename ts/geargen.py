@@ -51,6 +51,32 @@ async function find_ratios{depth}(min_teeth: number, max_teeth: number, target_n
 	return results;
 }}
 	"""
-	return template.format(depth=depth, generated_loops=generate_loops(depth, 5))
+	return template.format(depth=depth, generated_loops=generate_loops(depth, 1))
 
-print(generate_function(5))
+def generate_dispatch_function(mindepth, maxdepth):
+	template = """
+async function geargen_dispatch(n, gearmin, gearmax, ratio, error) {{
+	switch(n) {{
+{cases}
+		default:
+			await setStatus("Invalid number of gears");
+	}}
+}}
+"""
+	case = """
+		case {n}:
+			return await find_ratios{n}(gearmin, gearmax, ratio, error);
+	"""
+	cases = [case.format(n=n) for n in range(mindepth, maxdepth+1)]
+	dispatch_func = template.format(cases="".join(cases))
+	return dispatch_func
+
+def main():
+	gearmin = 2
+	gearmax = 6
+	print(generate_dispatch_function(gearmin, gearmax))
+	for i in range(gearmin, gearmax+1):
+		print(generate_function(i))
+
+if __name__ == '__main__':
+	main()
